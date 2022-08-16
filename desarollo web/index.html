@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<meta http-equiv="refresh"  content = "0.5">-->
+    <title>Document</title>
+</head>
+
+<body>
+    <img id = "logocafe"  src="logo.jpg" style="display: none" >
+    <canvas id="myCanvas" height= "2000" width="2000" style="border: 10px solid red">
+
+        
+
+
+        <script>
+            var a = document.getElementById("myCanvas");
+            var ctx = a.getContext("2d");
+
+            ctx.font = "60px Arial";
+            ctx.fillStyle = "#f00"
+            ctx.strokeStyle = "#f00"
+
+            ctx.fillText("el pepe", 75, 50);
+            ctx.strokeText("el pepe",75,150);
+            
+            ctx.strokeStyle = "black"
+            ctx.lineWidth = 3;
+
+
+            //triangulo
+            ctx.beginPath();
+            ctx.moveTo(350,25);
+            ctx.lineTo(350,200);
+            ctx.lineTo(480,200);
+            ctx.closePath();
+            ctx.stroke();
+
+
+
+
+            //degradados
+            var degradado = ctx.createLinearGradient(50,0,300,0);
+            var degradado2 = ctx.createRadialGradient(190, 255, 5, 200, 240, 100);
+
+            //añadir colores
+            degradado.addColorStop(0,"red");
+            degradado.addColorStop(0.50,"blue");
+            degradado.addColorStop(1,"white");
+
+
+            // generar rectangulo
+            ctx.fillStyle = degradado;
+            ctx.fillRect(50,50, 300, 50);
+
+
+
+            ctx.fillStyle = degradado2;
+            //añadir colores
+            degradado2.addColorStop(0,"white");
+
+            degradado2.addColorStop(1,"purple");
+
+            ctx.fillRect(50,200, 300, 150);
+
+            var img = document.getElementById("logocafe");
+            ctx.drawImage(img,50, 300);
+
+            var color = generateRandomColor();
+
+            a.addEventListener("click", function(e){console.log(e)
+                ctx.beginPath();
+                ctx.arc(e.offsetX,e.offsetY, 50, 0, 2*Math.PI);
+                ctx.fillStyle = color;
+                ctx.stroke();
+                ctx.fill();
+                
+            })
+
+
+            //generar un color aleatorio
+            function generateRandomColor() {
+                var r = () => Math.random() * 256 >> 0;
+                var color = `rgb(${r()}, ${r()}, ${r()},0.5)`;
+                return color;
+            }
+
+
+            a.addEventListener("mouseover",function(e){
+                
+                color = generateRandomColor();
+
+            })
+
+
+
+        </script>
+
+    </canvas>
+
+
+</body>
+</html>
