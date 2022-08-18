@@ -13,8 +13,15 @@
 
 
         <script>
+
+            var sup_x = 500;
+            var sup_y = 500;
+
             var a = document.getElementById("myCanvas");
             var ctx = a.getContext("2d");
+            var fig = "arc";
+            var press = false;
+
 
             ctx.font = "60px Arial";
             ctx.fillStyle = "#f00"
@@ -27,7 +34,7 @@
             ctx.lineWidth = 3;
 
 
-            //triangulo
+            /*/triangulo
             ctx.beginPath();
             ctx.moveTo(350,25);
             ctx.lineTo(350,200);
@@ -62,17 +69,36 @@
 
             ctx.fillRect(50,200, 300, 150);
 
+            //imagen
             var img = document.getElementById("logocafe");
             ctx.drawImage(img,50, 300);
 
             var color = generateRandomColor();
 
-            a.addEventListener("click", function(e){console.log(e)
-                ctx.beginPath();
-                ctx.arc(e.offsetX,e.offsetY, 50, 0, 2*Math.PI);
-                ctx.fillStyle = color;
-                ctx.stroke();
-                ctx.fill();
+            a.addEventListener("click", function(e){
+                
+
+                if(fig == "arc" && press == false){
+                    ctx.beginPath();
+                    ctx.arc(e.offsetX,e.offsetY, 50, 0, 2*Math.PI);
+                    ctx.fillStyle = color;
+                    ctx.stroke();
+                    ctx.fill();
+                }
+
+                else{
+
+                    ctx.beginPath();
+                    ctx.fillStyle = color;
+                    ctx.fillRect(e.offsetX,e.offsetY, 50, 50);
+                    ctx.stroke();
+                    ctx.fill();
+
+
+                }
+
+
+
                 
             })
 
@@ -83,14 +109,114 @@
                 var color = `rgb(${r()}, ${r()}, ${r()},0.5)`;
                 return color;
             }
+            /*/
+            //eventos
 
-
+            /*/
             a.addEventListener("mouseover",function(e){
                 
                 color = generateRandomColor();
 
             })
 
+            a.addEventListener("mouseout", function(e){
+                console.log(fig)
+                if (fig == "arc"){
+
+                    fig ="rect"
+
+                }
+                else{
+                    fig = "arc"
+
+                }
+
+
+            })
+
+             a.addEventListener("mousemove", function(e){
+                if(press == true){
+                    ctx.beginPath();
+                    ctx.fillStyle = "black";
+                    ctx.fillRect(e.offsetX,e.offsetY, 5, 5);
+                    ctx.stroke();
+                    ctx.fill();
+                }
+            })
+
+            a.addEventListener("mousedown",function(e){
+                press = true;
+            })
+
+            a.addEventListener("mouseup",function(e){
+                press = false;
+            })
+            /*/
+
+            document-addEventListener("keydown",function(t){
+
+                console.log(t);
+                //abajo
+                if(t.keyCode == 38|| t.keyCode == 83){
+                    sup_y += 5;
+                    paint();
+                }
+                //arriba
+                if(t.keyCode == 40 || t.keyCode == 87){
+                    sup_y -= 5;
+                    paint();
+                }
+                //derecha
+                if(t.keyCode == 39 || t.keyCode == 68){
+                    sup_x += 5;
+                    paint();
+                }
+
+                //izquierda
+                if(t.keyCode == 65 || t.keyCode == 37){
+                    sup_x -= 5;
+                    paint();
+                }        
+
+            })
+
+            function paint(){
+
+
+
+                
+
+                ctx.beginPath();
+                ctx.fillStyle = "green";
+                ctx.fillRect(sup_x,sup_y, 25, 25);
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.fillRect(sup_x+25,sup_y, 25, 25);
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.fillRect(sup_x-25,sup_y, 25, 25);
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.fillRect(sup_x,sup_y+25, 25, 25);
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.fillRect(sup_x,sup_y-25, 25, 25);
+                ctx.stroke();
+                ctx.fill();
+               
+            }
 
 
         </script>
