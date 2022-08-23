@@ -7,7 +7,7 @@
 
 <body>
     <img id = "logocafe"  src="logo.jpg" style="display: none" >
-    <canvas id="myCanvas" height= "2000" width="2000" style="border: 10px solid red">
+    <canvas id="myCanvas" height= "1000" width="1000" style="border: 10px solid red">
 
         
 
@@ -17,142 +17,39 @@
             var sup_x = 500;
             var sup_y = 500;
 
-            var a = document.getElementById("myCanvas");
-            var ctx = a.getContext("2d");
-            var fig = "arc";
+            var a = null;
+            var ctx = null;
+           
             var press = false;
 
-
-            ctx.font = "60px Arial";
-            ctx.fillStyle = "#f00"
-            ctx.strokeStyle = "#f00"
-
-            ctx.fillText("el pepe", 75, 50);
-            ctx.strokeText("el pepe",75,150);
-            
-            ctx.strokeStyle = "black"
-            ctx.lineWidth = 3;
+            function run (){
+                a = document.getElementById("myCanvas");
+                ctx = a.getContext("2d");
 
 
-            /*/triangulo
-            ctx.beginPath();
-            ctx.moveTo(350,25);
-            ctx.lineTo(350,200);
-            ctx.lineTo(480,200);
-            ctx.closePath();
-            ctx.stroke();
+
+                paint();
+            }
 
 
 
 
-            //degradados
-            var degradado = ctx.createLinearGradient(50,0,300,0);
-            var degradado2 = ctx.createRadialGradient(190, 255, 5, 200, 240, 100);
-
-            //añadir colores
-            degradado.addColorStop(0,"red");
-            degradado.addColorStop(0.50,"blue");
-            degradado.addColorStop(1,"white");
-
-
-            // generar rectangulo
-            ctx.fillStyle = degradado;
-            ctx.fillRect(50,50, 300, 50);
-
-
-
-            ctx.fillStyle = degradado2;
-            //añadir colores
-            degradado2.addColorStop(0,"white");
-
-            degradado2.addColorStop(1,"purple");
-
-            ctx.fillRect(50,200, 300, 150);
-
-            //imagen
-            var img = document.getElementById("logocafe");
-            ctx.drawImage(img,50, 300);
 
             var color = generateRandomColor();
 
-            a.addEventListener("click", function(e){
-                
 
-                if(fig == "arc" && press == false){
-                    ctx.beginPath();
-                    ctx.arc(e.offsetX,e.offsetY, 50, 0, 2*Math.PI);
-                    ctx.fillStyle = color;
-                    ctx.stroke();
-                    ctx.fill();
-                }
-
-                else{
-
-                    ctx.beginPath();
-                    ctx.fillStyle = color;
-                    ctx.fillRect(e.offsetX,e.offsetY, 50, 50);
-                    ctx.stroke();
-                    ctx.fill();
-
-
-                }
-
-
-
-                
-            })
-
-
-            //generar un color aleatorio
-            function generateRandomColor() {
+                function generateRandomColor() {
                 var r = () => Math.random() * 256 >> 0;
                 var color = `rgb(${r()}, ${r()}, ${r()},0.5)`;
                 return color;
-            }
-            /*/
-            //eventos
-
-            /*/
-            a.addEventListener("mouseover",function(e){
-                
-                color = generateRandomColor();
-
-            })
-
-            a.addEventListener("mouseout", function(e){
-                console.log(fig)
-                if (fig == "arc"){
-
-                    fig ="rect"
-
-                }
-                else{
-                    fig = "arc"
-
-                }
+                };
+            
 
 
-            })
 
-             a.addEventListener("mousemove", function(e){
-                if(press == true){
-                    ctx.beginPath();
-                    ctx.fillStyle = "black";
-                    ctx.fillRect(e.offsetX,e.offsetY, 5, 5);
-                    ctx.stroke();
-                    ctx.fill();
-                }
-            })
 
-            a.addEventListener("mousedown",function(e){
-                press = true;
-            })
-
-            a.addEventListener("mouseup",function(e){
-                press = false;
-            })
-            /*/
-
+            //funcion dibujar cuadrado
+           /*/
             document-addEventListener("keydown",function(t){
 
                 console.log(t);
@@ -179,15 +76,37 @@
                 }        
 
             })
+          /*/
+
+
+
 
             function paint(){
 
 
 
+                window.requestAnimationFrame(paint)
+
+                sup_x += 5
+
+                if (sup_x > 1000){
+                    sup_x = 0;
+                }
+
+                if (sup_y > 1000){
+                    sup_y = 0;
+                }
+
+                if (sup_x < 0){
+                    sup_x = 1000;
+                }
                 
+                if (sup_y < 0){
+                    sup_y = 1000;
+                }
 
                 ctx.beginPath();
-                ctx.fillStyle = "green";
+                ctx.fillStyle = color;
                 ctx.fillRect(sup_x,sup_y, 25, 25);
                 ctx.stroke();
                 ctx.fill();
@@ -217,6 +136,25 @@
                 ctx.fill();
                
             }
+            
+
+            window.requestAnimationFrame = (function () {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                function (callback) {
+                    window.setTimeout(callback, 17);
+                };
+        }());
+
+
+        window.addEventListener("load", run, false);
+
+
+
+
+
+
 
 
         </script>
